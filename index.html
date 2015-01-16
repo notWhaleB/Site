@@ -3,8 +3,13 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <style>
+        body {
+            overflow: hidden;
+        }
+    </style>
 </head>
-<body bgcolor="#101010">
+<body bgcolor="#000">
 <canvas width="200" height="100" id="mainCanvas"></canvas>
 <script>
     function getRandomInt(min, max) {
@@ -15,11 +20,11 @@
         return String.fromCharCode(getRandomInt(32, 60));
     }
 
-    var fontSize = 16;
+    var fontSize = 12;
     var canvas = document.querySelector("mainCanvas");
     canvas = document.getElementById("mainCanvas");
-    canvas.width = window.innerWidth - 20; //document.width is obsolete
-    canvas.height = window.innerHeight - 20; //document.height is obsolete
+    canvas.width = parseInt(window.innerWidth / fontSize + 1) * fontSize - 10; //document.width is obsolete
+    canvas.height = parseInt(window.innerHeight / fontSize + 1) * fontSize; //document.height is obsolete
     canvasW = canvas.width;
     canvasH = canvas.height;
 
@@ -39,7 +44,7 @@
     }
 
     function update() {
-        if (getRandomInt(1, 4) == 1) {
+        if (getRandomInt(1, 24) < 10) {
             var posX = getRandomInt(0, mapW);
             map[posX][0][0] = getRandomChar();
             map[posX][0][1] = -2;
@@ -74,7 +79,7 @@
         context.fillStyle = "black";
         context.fillRect(0, 0, canvasW, canvasH);
 
-        context.font = "bold 16px sans-serif";
+        context.font = "bold 12px sans-serif";
 
         for (var i = 0; i <= mapW; ++i) {
             for (var j = 0; j <= mapH; ++j) {
