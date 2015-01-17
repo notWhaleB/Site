@@ -13,8 +13,8 @@
 <canvas width="200" height="100" id="mainCanvas"></canvas>
 <script>
     var fontSize = 14;
-    var chrSetPow = 53;
-    var letters = "アイウエオカキクケコサシスナニノフマミムユヨラリルロワヱヲCDFGJLSUXZ123456789$#@%&";
+    var chrSetPow = 84;
+    var letters = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユ42ヨラリルレロワヰヱヲンㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄒㄓㄔㄕㄗㄘㄙㄚㄛㄜㄝㄞㄠㄡㄢㄣㄤㄥㄦㄨㄩㄪㄫㄬ";
 
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -46,9 +46,10 @@
     for (var i = 0; i <= mapW; ++i) {
         map[i] = new Array(mapH);
         for (var j = 0; j <= mapH; ++j) {
-            map[i][j] = new Array(2);
+            map[i][j] = new Array(3);
             map[i][j][0] = "";
             map[i][j][1] = 0;
+            map[i][j][2] = 0;
         }
     }
 
@@ -72,7 +73,9 @@
                 if (map[i][j][1] < 0) {
                     if (map[i][j][1] == -1) {
                         if (j != mapH) {
-                            map[i][j + 1] = map[i][j].slice(0);
+                            var buf = map[i][j + 1][2];
+                            map[i][j + 1] = map[i][j].slice(0, 2);
+                            map[i][j + 1][2] = buf;
                             map[i][j + 1][1] = -2;
                         }
                         else {
