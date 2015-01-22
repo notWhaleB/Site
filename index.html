@@ -38,9 +38,11 @@
     var mapH = parseInt(canvasH / fontSize);
     var map = new Array(mapW);
     var rainLen = new Array(mapW);
+    var rainSpeed = new Array(mapW)
 
     for (var i = 0; i != mapW; ++i) {
         rainLen[i] = 0;
+        rainSpeed[i] = 0;
     }
 
     for (var i = 0; i <= mapW; ++i) {
@@ -54,7 +56,7 @@
     }
 
     function update() {
-        if (getRandomInt(1, 3) == 2) {
+        if (getRandomInt(1, 7) < 4) {
             var posX = getRandomInt(0, mapW);
 
             for (var i = 0; i != 10 && rainLen[posX] != 0; ++i) {
@@ -63,8 +65,8 @@
 
             if (rainLen[posX] == 0) {
                 map[posX][0][0] = getRandomChar();
-                map[posX][0][1] = -2;
-
+                rainSpeed[posX] = 0 - getRandomInt(2, 3);
+                map[posX][0][1] = rainSpeed[posX];
                 rainLen[posX] = getRandomInt(30, 51);
             }
         }
@@ -76,7 +78,7 @@
                             var buf = map[i][j + 1][2];
                             map[i][j + 1] = map[i][j].slice(0, 2);
                             map[i][j + 1][2] = buf;
-                            map[i][j + 1][1] = -2;
+                            map[i][j + 1][1] = rainSpeed[i];
                         }
                         else {
                             rainLen[i] = 0;
