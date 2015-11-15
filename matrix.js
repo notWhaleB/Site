@@ -9,6 +9,8 @@ var mapW, mapH;
 var maxPause, maxDropRdmArg, maxDropsINColumn, refreshDelay;
 var matrixMap = [];
 
+var minWidth, minHeight;
+
 var windowWidth, windowHeight;
 var canvas;
 
@@ -138,7 +140,7 @@ function update() {
 function draw() {
     context.fillStyle = "black";
     context.fillRect(0, 0, canvasW, canvasH);
-    context.font = "bold 14px monaco, consolas, courier, monospace";
+    context.font = "bold " + fontSize + "px monaco, consolas, courier, monospace";
     var i, j;
 
     for (i = 0; i <= mapW; ++i) {
@@ -180,13 +182,20 @@ function matrix() {
 
 function init() {
     clearInterval(timer);
-    fontSize = 14;
     currentTime = new Date();
 
-    canvas = document.getElementById("mainCanvas");
+    fontSize = 14 + Math.max(parseInt((document.body.offsetWidth - 1200) / 100), 0);
 
-    windowWidth = Math.max(document.body.offsetWidth, 1024);
-    windowHeight = Math.max(document.body.offsetHeight - 5, 400);
+    minWidth = charText[0].length * fontSize;
+    minHeight = charText.length * fontSize;
+
+    windowWidth = Math.max(document.body.offsetWidth, minWidth);
+    windowHeight = Math.max(document.body.offsetHeight - 5, minHeight);
+
+    document.body.style.minWidth = minWidth;
+    document.body.style.minHeight = minHeight;
+
+    canvas = document.getElementById("mainCanvas");
 
     canvas.width = parseInt(windowWidth / fontSize) * fontSize;
     canvas.height = parseInt(windowHeight / fontSize) * fontSize;
