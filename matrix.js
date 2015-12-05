@@ -8,6 +8,7 @@ var timer;
 var mapW, mapH;
 var maxPause, maxDropRdmArg, maxDropsINColumn, refreshDelay;
 var matrixMap = [];
+var completedFromLeft;
 
 var minWidth, minHeight;
 
@@ -33,6 +34,22 @@ function get_random_int(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function get_random_spawn_x() {
+    var randPosX = get_random_int(0, mapW);
+    if (maxDropsINColumn != 1 && matrixMap[randPosX][mActive]) {
+        if (get_random_int(0, 2) == 1) {
+            for (var i = completedFromLeft; i <= mapW; ++i) {
+                if (!matrixMap[i][mActive]) {
+                    randPosX = i;
+                    completedFromLeft = i;
+                    break;
+                }
+            }
+        }
+    }
+    return randPosX;
+}
+
 function get_random_char() {
     var idx = get_random_int(0, chrSetPow - 1);
     return letters.slice(idx, idx + 1);
@@ -45,7 +62,7 @@ function config_second_phase() {
 }
 
 function spawn_new_drop() {
-    var randPosX = get_random_int(0, mapW);
+    var randPosX = get_random_spawn_x();
 
     for (var i = 0; i != 10 && matrixMap[randPosX][mDropsCount] >= maxDropsINColumn; ++i)
         randPosX = get_random_int(0, mapW);
@@ -212,6 +229,7 @@ function init() {
     maxDropRdmArg = 1;
     maxDropsINColumn = 2;
     refreshDelay = 25;
+    completedFromLeft = 0;
 
     timer = setInterval(matrix, refreshDelay);
 
